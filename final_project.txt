@@ -1,0 +1,27 @@
+180             }
+181
+182             command[bytes_received] = '\0'; // Null-terminate the co    mmand
+183             printf("Received: %s\n", command);
+184
+185             // Process commands
+186             if (strncmp(command, "07#", 3) == 0) {
+187                 send(client_socket, "Command implemented\n", 21, 0);
+188                 fetch_google_homepage(client_socket);
+189             } else if (strncmp(command, "exit#", 5) == 0) {
+190                 send(client_socket, "Closing connection...\n", 23, 0    );
+191                 keep_running = 0; // Close connection after this
+192             } else {
+193                 send(client_socket, "Command not implemented\n", 25,     0);
+194             }
+195         }
+196
+197         close(client_socket);
+198         printf("Client disconnected.\n");
+199     }
+200
+201     close(server_socket);
+202     return 0;
+203 }
+204
+205
+                                                      
